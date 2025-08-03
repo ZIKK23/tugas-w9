@@ -22,7 +22,6 @@ export default async function SsrPage() {
     return (
         <div>
             <h1 className="text-3xl font-bold mb-8 text-center">Produk</h1>
-            <p className="text-center mb-4">Halaman ini di-render di server setiap request. Waktu saat ini: {new Date().toLocaleTimeString()}</p>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
                 {products.map((product) => (
                     <Link href={`/product/${product.id}`} key={product.id}>
