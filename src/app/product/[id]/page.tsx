@@ -19,9 +19,8 @@ async function getProduct(id: string): Promise<Product | null> {
     return res.json();
 }
 
-export async function generateMetadata(
-    { params }: { params: { id: string } }
-): Promise<Metadata> {
+export async function generateMetadata(props: { params: Promise<{ id: string }> }): Promise<Metadata> {
+    const params = await props.params;
     const product = await getProduct(params.id);
     if (!product) {
         return { title: 'Product Not Found' };
@@ -44,11 +43,12 @@ export async function generateStaticParams() {
 }
 
 
-export default async function ProductDetailPage({
-    params,
-}: {
-    params: { id: string };
-}) {
+export default async function ProductDetailPage(
+    props: {
+        params: Promise<{ id: string }>;
+    }
+) {
+    const params = await props.params;
     const product = await getProduct(params.id);
     return <ProductView product={product} />;
 }
