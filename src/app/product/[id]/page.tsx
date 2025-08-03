@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import ProductView from '@/components/ProductView'; 
+import ProductView from '@/components/ProductView';
 
 interface Product {
     id: number;
@@ -8,10 +8,6 @@ interface Product {
     description: string;
     category: string;
     image: string;
-}
-
-interface Props {
-    params: { id: string };
 }
 
 async function getProduct(id: string): Promise<Product | null> {
@@ -23,7 +19,9 @@ async function getProduct(id: string): Promise<Product | null> {
     return res.json();
 }
 
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
+export async function generateMetadata(
+    { params }: { params: { id: string } }
+): Promise<Metadata> {
     const product = await getProduct(params.id);
     if (!product) {
         return { title: 'Product Not Found' };
@@ -42,9 +40,11 @@ export async function generateStaticParams() {
     }));
 }
 
-
-
-export default async function ProductDetailPage({ params }: Props) {
+export default async function ProductDetailPage({
+    params,
+}: {
+    params: { id: string };
+}) {
     const product = await getProduct(params.id);
     return <ProductView product={product} />;
 }
