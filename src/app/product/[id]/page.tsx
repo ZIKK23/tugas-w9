@@ -35,10 +35,14 @@ export async function generateMetadata(
 export async function generateStaticParams() {
     const res = await fetch('https://fakestoreapi.com/products');
     const products: Product[] = await res.json();
+
     return products.slice(0, 10).map((product) => ({
-        id: product.id.toString(),
+        params: {
+            id: product.id.toString(),
+        },
     }));
 }
+
 
 export default async function ProductDetailPage({
     params,
